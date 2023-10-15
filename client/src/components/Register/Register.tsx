@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import { Link as RouterLink } from "react-router-dom";
-
 import { blueGrey } from "@mui/material/colors";
+import { Link as RouterLink } from "react-router-dom";
 import {
   Button,
   Divider,
@@ -12,12 +11,37 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import LockOpenIcon from "@mui/icons-material/LockOpen";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 
 const imageURL =
   "https://fastly.picsum.photos/id/103/1000/500.jpg?blur=5&hmac=PgtaT5GayYD3i9VcIsdSDARKI0PSLks6KZtzEs8wTDQ";
 
-export const Login = () => {
+export const Register = () => {
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [password, setPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
+
+  const firstNameHandler = (e: any) => {
+    setFirstName(e.target.value);
+  };
+  const passwordHandler = (e: any) => {
+    setPassword(e.target.value);
+  };
+  const repeatPasswordHandler = (e: any) => {
+    setRepeatPassword(e.target.value);
+  };
+
+  const submitHandler = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log({
+      Email: email,
+      "First Name": firstName,
+      Password: password,
+      "Repeat Password": repeatPassword,
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -60,13 +84,13 @@ export const Login = () => {
             p: 4,
             mt: 2,
             borderRadius: 3,
-            backdropFilter: "blur(5px)",
           }}
           elevation={3}
           component="form"
+          onSubmit={submitHandler}
         >
           <Typography component="h2" sx={{ textAlign: "center" }}>
-            Sign-in to your account
+            Create your account
           </Typography>
 
           <TextField
@@ -74,8 +98,19 @@ export const Login = () => {
             required
             fullWidth
             label="Email"
-            name="email"
+            value={email}
             type="email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <TextField
+            sx={{ mt: 2 }}
+            required
+            fullWidth
+            label="Name"
+            value={firstName}
+            type="name"
+            onChange={firstNameHandler}
           />
 
           <TextField
@@ -83,18 +118,30 @@ export const Login = () => {
             required
             fullWidth
             label="Password"
-            name="password"
+            value={password}
             type="password"
+            onChange={passwordHandler}
+          />
+
+          <TextField
+            sx={{ mt: 2 }}
+            required
+            fullWidth
+            label="Repeat Password"
+            value={repeatPassword}
+            type="repeat password"
+            onChange={repeatPasswordHandler}
           />
 
           <Button
-            startIcon={<LockOpenIcon />}
+            startIcon={<HowToRegIcon />}
             variant="contained"
             sx={{ mt: 2, letterSpacing: "2px" }}
             fullWidth
             size="large"
+            type="submit"
           >
-            Sign in
+            Register
           </Button>
 
           <Stack
@@ -114,11 +161,11 @@ export const Login = () => {
             </Link>
             <Link
               component={RouterLink}
-              to="/register"
+              to="/login"
               underline="hover"
               sx={{ fontSize: 13 }}
             >
-              Create new account
+              Log in here
             </Link>
           </Stack>
         </Paper>

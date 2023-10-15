@@ -1,8 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import { Link as RouterLink } from "react-router-dom";
-
 import { blueGrey } from "@mui/material/colors";
+import { Link as RouterLink } from "react-router-dom";
 import {
   Button,
   Divider,
@@ -12,12 +11,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import LockOpenIcon from "@mui/icons-material/LockOpen";
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 
 const imageURL =
   "https://fastly.picsum.photos/id/103/1000/500.jpg?blur=5&hmac=PgtaT5GayYD3i9VcIsdSDARKI0PSLks6KZtzEs8wTDQ";
 
-export const Login = () => {
+export const ForgotPassword = () => {
   return (
     <Box
       sx={{
@@ -60,13 +59,12 @@ export const Login = () => {
             p: 4,
             mt: 2,
             borderRadius: 3,
-            backdropFilter: "blur(5px)",
           }}
           elevation={3}
           component="form"
         >
           <Typography component="h2" sx={{ textAlign: "center" }}>
-            Sign-in to your account
+            Reset your password
           </Typography>
 
           <TextField
@@ -78,23 +76,14 @@ export const Login = () => {
             type="email"
           />
 
-          <TextField
-            sx={{ mt: 2 }}
-            required
-            fullWidth
-            label="Password"
-            name="password"
-            type="password"
-          />
-
           <Button
-            startIcon={<LockOpenIcon />}
+            startIcon={<RotateLeftIcon />}
             variant="contained"
             sx={{ mt: 2, letterSpacing: "2px" }}
             fullWidth
             size="large"
           >
-            Sign in
+            Reset
           </Button>
 
           <Stack
@@ -106,11 +95,11 @@ export const Login = () => {
           >
             <Link
               component={RouterLink}
-              to="/forgotpass"
+              to="/login"
               underline="hover"
               sx={{ fontSize: 13 }}
             >
-              Forgot your password?
+              Log in
             </Link>
             <Link
               component={RouterLink}
