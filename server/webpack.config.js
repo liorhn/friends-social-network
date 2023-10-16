@@ -1,3 +1,4 @@
+const NodemonPlugin = require('nodemon-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -12,6 +13,9 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new NodemonPlugin(), 
+  ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
