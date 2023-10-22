@@ -19,6 +19,15 @@ const theme = createTheme({
       main: "#000030",
     },
   },
+  components: {
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          fontWeight: "bold"
+        },
+      },
+    },
+  },
 });
 
 root.render(

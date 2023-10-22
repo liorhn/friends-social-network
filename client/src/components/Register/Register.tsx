@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import { blueGrey } from "@mui/material/colors";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
   Button,
   Divider,
@@ -10,36 +11,110 @@ import {
   Stack,
   TextField,
   Typography,
+  LinearProgress,
 } from "@mui/material";
+
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 
 const imageURL =
   "https://fastly.picsum.photos/id/103/1000/500.jpg?blur=5&hmac=PgtaT5GayYD3i9VcIsdSDARKI0PSLks6KZtzEs8wTDQ";
 
 export const Register = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
 
-  const firstNameHandler = (e: any) => {
-    setFirstName(e.target.value);
-  };
-  const passwordHandler = (e: any) => {
-    setPassword(e.target.value);
-  };
-  const repeatPasswordHandler = (e: any) => {
-    setRepeatPassword(e.target.value);
-  };
+  const [emailError, setEmailError] = useState("");
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [repeatPasswordError, setRepeatPasswordError] = useState("");
+
+  const [showProgress, setShowProgress] = useState(false);
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({
-      Email: email,
-      "First Name": firstName,
-      Password: password,
-      "Repeat Password": repeatPassword,
-    });
+
+    let isValid = true;
+
+    if (!firstName) {
+      setFirstNameError("Please fill your name here.");
+      isValid = false;
+    } else if (firstName.length < 3) {
+      setFirstNameError("Name must be at least 3 characters.");
+      isValid = false;
+    } else {
+      setFirstNameError("");
+    }
+
+    if (!lastName) {
+      setLastNameError("Please fill your last name here.");
+      isValid = false;
+    } else if (lastName.length < 3) {
+      setLastNameError("Name must be at least 3 characters.");
+      isValid = false;
+    } else {
+      setLastNameError("");
+    }
+
+    if (!email) {
+      setEmailError("Please fill your email here.");
+      isValid = false;
+    } else if (email.length < 10) {
+      setEmailError("Email must be at least 10 characters, including @.");
+      isValid = false;
+    } else {
+      setEmailError("");
+    }
+
+    if (!password) {
+      setPasswordError("Please fill your password here.");
+      isValid = false;
+    } else if (password.length < 8) {
+      setPasswordError("Password must be at least 8 characters.");
+      isValid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    if (!repeatPassword) {
+      setRepeatPasswordError("Please repeat your password here.");
+      isValid = false;
+    } else if (password !== repeatPassword) {
+      setRepeatPasswordError("Passwords do not match!");
+      setPasswordError("Passwords do not match!");
+      isValid = false;
+    } else {
+      setRepeatPasswordError("");
+    }
+
+    if (!isValid) {
+      return;
+    }
+
+    axios
+      .post("http://localhost:4000/v1/users", {
+        email,
+        firstName,
+        lastName,
+        password,
+      })
+      .then((res) => {
+        if (res.data.error) {
+          setEmailError("Email is already in use.");
+          return;
+        } else {
+          setEmailError("");
+          setShowProgress(true);
+          setTimeout(() => {
+            navigate("/registration-complete");
+          }, 3000);
+        }
+      });
   };
 
   return (
@@ -95,43 +170,62 @@ export const Register = () => {
 
           <TextField
             sx={{ mt: 3 }}
-            required
             fullWidth
             label="Email"
             value={email}
             type="email"
+            error={!!emailError}
+            helperText={emailError}
             onChange={(e) => setEmail(e.target.value)}
           />
 
           <TextField
             sx={{ mt: 2 }}
-            required
             fullWidth
             label="Name"
             value={firstName}
             type="name"
-            onChange={firstNameHandler}
+            error={!!firstNameError}
+            helperText={firstNameError}
+            onChange={(e) => setFirstName(e.target.value)}
           />
 
           <TextField
             sx={{ mt: 2 }}
-            required
+            fullWidth
+            label="Last Name"
+            value={lastName}
+            type="name"
+            error={!!lastNameError}
+            helperText={lastNameError}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+
+          <TextField
+            sx={{ mt: 2 }}
             fullWidth
             label="Password"
             value={password}
             type="password"
-            onChange={passwordHandler}
+            error={!!passwordError}
+            helperText={passwordError}
+            onChange={(e) => setPassword(e.target.value)}
           />
 
           <TextField
             sx={{ mt: 2 }}
-            required
             fullWidth
             label="Repeat Password"
             value={repeatPassword}
-            type="repeat password"
-            onChange={repeatPasswordHandler}
+            type="password"
+            error={!!repeatPasswordError}
+            helperText={repeatPasswordError}
+            onChange={(e) => setRepeatPassword(e.target.value)}
           />
+
+          {showProgress && (
+            <LinearProgress sx={{ mt: "20px" }}></LinearProgress>
+          )}
 
           <Button
             startIcon={<HowToRegIcon />}
