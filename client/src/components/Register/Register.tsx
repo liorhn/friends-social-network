@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import { blueGrey } from "@mui/material/colors";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { config } from "../../config/config";
 import {
   Button,
   Divider,
@@ -13,7 +14,6 @@ import {
   Typography,
   LinearProgress,
 } from "@mui/material";
-
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 
 const imageURL =
@@ -34,7 +34,7 @@ export const Register = () => {
   const [passwordError, setPasswordError] = useState("");
   const [repeatPasswordError, setRepeatPasswordError] = useState("");
 
-  const [showProgress, setShowProgress] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,8 +44,8 @@ export const Register = () => {
     if (!firstName) {
       setFirstNameError("Please fill your name here.");
       isValid = false;
-    } else if (firstName.length < 3) {
-      setFirstNameError("Name must be at least 3 characters.");
+    } else if (firstName.length < 2) {
+      setFirstNameError("Name must be at least 2 characters.");
       isValid = false;
     } else {
       setFirstNameError("");
@@ -54,8 +54,8 @@ export const Register = () => {
     if (!lastName) {
       setLastNameError("Please fill your last name here.");
       isValid = false;
-    } else if (lastName.length < 3) {
-      setLastNameError("Name must be at least 3 characters.");
+    } else if (lastName.length < 2) {
+      setLastNameError("Name must be at least 2 characters.");
       isValid = false;
     } else {
       setLastNameError("");
@@ -64,8 +64,8 @@ export const Register = () => {
     if (!email) {
       setEmailError("Please fill your email here.");
       isValid = false;
-    } else if (email.length < 10) {
-      setEmailError("Email must be at least 10 characters, including @.");
+    } else if (!/^[\S]+@[\S]+\.[\w]+$/.test(email)) {
+      setEmailError("Please provide valid email address.");
       isValid = false;
     } else {
       setEmailError("");
@@ -96,8 +96,10 @@ export const Register = () => {
       return;
     }
 
+    setLoading(true);
+
     axios
-      .post("http://localhost:4000/v1/users", {
+      .post(`${config.apiBase}/v1/users`, {
         email,
         firstName,
         lastName,
@@ -106,14 +108,13 @@ export const Register = () => {
       .then((res) => {
         if (res.data.error) {
           setEmailError("Email is already in use.");
-          return;
         } else {
           setEmailError("");
-          setShowProgress(true);
-          setTimeout(() => {
-            navigate("/registration-complete");
-          }, 3000);
+          navigate("/registration-complete");
         }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -163,6 +164,7 @@ export const Register = () => {
           elevation={3}
           component="form"
           onSubmit={submitHandler}
+          noValidate={true}
         >
           <Typography component="h2" sx={{ textAlign: "center" }}>
             Create your account
@@ -177,6 +179,7 @@ export const Register = () => {
             error={!!emailError}
             helperText={emailError}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
 
           <TextField
@@ -222,11 +225,7 @@ export const Register = () => {
             helperText={repeatPasswordError}
             onChange={(e) => setRepeatPassword(e.target.value)}
           />
-
-          {showProgress && (
-            <LinearProgress sx={{ mt: "20px" }}></LinearProgress>
-          )}
-
+          {loading && <LinearProgress sx={{ mt: "20px" }} />}
           <Button
             startIcon={<HowToRegIcon />}
             variant="contained"

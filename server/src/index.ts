@@ -1,70 +1,24 @@
 import * as express from "express";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const cors = require("cors");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const mysql = require("mysql");
+import * as cors from "cors";
+import { initUsersService } from "./users/users";
+import { initSessionService } from "./session/session";
+import { initDatabase } from "./database/db";
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-//Connecting to my database.
-const db = mysql.createConnection({
-  host: "127.0.0.1",
-  user: "root",
-  password: "123456",
-  database: "friends_schema",
-});
-db.connect(function (err: string) {
-  if (err) throw err;
-  console.log("Connected!");
-});
-
-app.post("/v1/users", (req, res) => {
-  const body = req.body;
-  const { email, firstName, lastName, password } = body;
-
-  db.query(
-    `SELECT id FROM users WHERE email = ? LIMIT 1`,
-    [email],
-    (error: string, results: any[]) => {
-      if (error) {
-        return res.json({
-          status: false,
-          error: "Failed to check email existence",
-        });
-      }
-      if (results.length > 0) {
-        return res.json({
-          status: false,
-          error: "Email already exists",
-        });
-      }
-
-      const query = `INSERT INTO users (email, first_name, last_name, password) VALUES (?, ?, ?, ?)`;
-      db.query(
-        query,
-        [email, firstName, lastName, password],
-        (error: string) => {
-          if (error) {
-            console.error("Error inserting data:", error);
-            res.json({ status: false, error: "Failed to insert data" });
-          } else {
-            res.json({ status: true });
-          }
-        }
-      );
-    }
-  );
-});
-
-//Login endpoint.
-app.get("/v1/session", (req, res) => {
-  res.send("Welcome to Login pagesadasd!");
-});
+initDatabase();
+initUsersService(app, initDatabase());
+initSessionService(app, initDatabase());
 
 app.listen(4000, () => {
   console.log("Running on server 4000!");
 });
+
+
+
+
+
 
 // const mysql = require('mysql');
 // const express = require('express');
