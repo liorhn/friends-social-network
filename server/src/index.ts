@@ -7,18 +7,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-initDatabase();
-initUsersService(app, initDatabase());
-initSessionService(app, initDatabase());
+const db = initDatabase();
+initUsersService(app, db);
+initSessionService(app, db);
 
 app.listen(4000, () => {
   console.log("Running on server 4000!");
 });
-
-
-
-
-
 
 // const mysql = require('mysql');
 // const express = require('express');
