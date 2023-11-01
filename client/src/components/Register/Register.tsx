@@ -36,7 +36,7 @@ export const Register = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const submitHandler = (e: React.FormEvent) => {
+  const registerSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
     let isValid = true;
@@ -163,7 +163,7 @@ export const Register = () => {
           }}
           elevation={3}
           component="form"
-          onSubmit={submitHandler}
+          onSubmit={registerSubmitHandler}
           noValidate={true}
         >
           <Typography component="h2" sx={{ textAlign: "center" }}>

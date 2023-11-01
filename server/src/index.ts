@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as cors from "cors";
 import { initUsersService } from "./users/users";
-import { initSessionService } from "./session/session";
+// import { initSessionService } from "./session/session";
 import { initDatabase } from "./database/db";
 const app = express();
 app.use(cors());
@@ -9,7 +9,7 @@ app.use(express.json());
 
 const db = initDatabase();
 initUsersService(app, db);
-initSessionService(app, db);
+// initSessionService(app, db);
 
 app.listen(4000, () => {
   console.log("Running on server 4000!");
@@ -20,7 +20,7 @@ app.listen(4000, () => {
 // const cors = require('cors');
 // const bodyParser = require('body-parser');
 // const bcrypt = require('bcrypt');
-// const JWT = require('jsonwebtoken');
+// const JWT = require('jsonwebtoken'); 
 
 // const app = express();
 

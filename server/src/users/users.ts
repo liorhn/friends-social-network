@@ -1,10 +1,21 @@
 import { Express } from "express";
-import { Connection } from 'mysql';
+import { Connection } from "mysql";
+import * as crypto from "crypto-js";
 
 export const initUsersService = (app: Express, db: Connection) => {
   app.post("/v1/users", (req, res) => {
     const body = req.body;
     const { email, firstName, lastName, password } = body;
+
+    const hashPassword = (password: any) => {
+      const salt: any = crypto.lib.WordArray.random(128 / 8);
+      const iterations: number = 1000;
+      const hashedPassword = crypto
+        .PBKDF2(password, salt, { keySize: 256 / 32, iterations: iterations })
+        .toString();
+
+      return hashedPassword;
+    };
 
     db.query(
       `SELECT id FROM users WHERE email = ? LIMIT 1`,
@@ -26,7 +37,7 @@ export const initUsersService = (app: Express, db: Connection) => {
         const query = `INSERT INTO users (email, first_name, last_name, password) VALUES (?, ?, ?, ?)`;
         db.query(
           query,
-          [email, firstName, lastName, password],
+          [email, firstName, lastName, hashPassword(password)],
           (error) => {
             if (error) {
               console.error("Error inserting data:", error);
