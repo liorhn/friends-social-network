@@ -42,7 +42,7 @@ export const initSessionService = (app: Express, db: Connection) => {
             return res.json({
               status: 401,
               error: "Authentication failed",
-              message: "Invalid username or password",
+              errorMessage: "Invalid username or password",
             });
           }
         } else {

@@ -18,6 +18,9 @@ const theme = createTheme({
     primary: {
       main: "#000030",
     },
+    secondary: {
+      main: "#d32f2f",
+    }
   },
   components: {
     MuiFormHelperText: {

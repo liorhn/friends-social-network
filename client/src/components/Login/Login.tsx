@@ -25,6 +25,8 @@ export const Login = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
+  const [invalidDetails, setInvalidDetails] = useState("");
+
   const loginSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault();
     let isValid = true;
@@ -59,7 +61,12 @@ export const Login = () => {
         password,
       })
       .then((res) => {
-        console.log(res);
+        if (res.data.errorMessage) {
+          setInvalidDetails(res.data.errorMessage);
+          return;
+        } else {
+          setInvalidDetails("");
+        }
       });
   };
 
@@ -140,6 +147,21 @@ export const Login = () => {
               setPassword(e.target.value);
             }}
           />
+
+          {invalidDetails && (
+            <Typography
+              component="h3"
+              sx={{
+                textAlign: "center",
+                fontWeight: "bold",
+                color: "secondary.main",
+                fontSize: "12px",
+                mt: "15px",
+              }}
+            >
+              {invalidDetails}
+            </Typography>
+          )}
 
           <Button
             startIcon={<LockOpenIcon />}
