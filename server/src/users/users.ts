@@ -2,6 +2,8 @@ import { Express } from "express";
 import { Connection } from "mysql";
 import * as crypto from "crypto-js";
 
+//Register
+
 export const initUsersService = (app: Express, db: Connection) => {
   app.post("/v1/users", (req, res) => {
     const body = req.body;
@@ -14,8 +16,11 @@ export const initUsersService = (app: Express, db: Connection) => {
         .PBKDF2(password, salt, { keySize: 256 / 32, iterations: iterations })
         .toString();
 
-      return hashedPassword;
+      return [hashedPassword, salt];
     };
+
+    const [hashedPassword, salt] = hashPassword(password);
+    const stringfySalt = crypto.enc.Hex.stringify(salt);
 
     db.query(
       `SELECT id FROM users WHERE email = ? LIMIT 1`,
@@ -23,27 +28,31 @@ export const initUsersService = (app: Express, db: Connection) => {
       (error, results: []) => {
         if (error) {
           return res.json({
-            status: false,
+            status: 500,
             error: "Failed to check email existence",
           });
         }
         if (results.length > 0) {
           return res.json({
-            status: false,
+            status: 409,
             error: "Email already exists",
           });
         }
 
-        const query = `INSERT INTO users (email, first_name, last_name, password) VALUES (?, ?, ?, ?)`;
+        const query = `INSERT INTO users (email, first_name, last_name, password, salt) VALUES (?, ?, ?, ?, ?)`;
         db.query(
           query,
-          [email, firstName, lastName, hashPassword(password)],
+          [email, firstName, lastName, hashedPassword, stringfySalt],
           (error) => {
             if (error) {
-              console.error("Error inserting data:", error);
-              res.json({ status: false, error: "Failed to insert data" });
+              return res.json({
+                status: 500,
+                error: "Failed to insert data",
+              });
             } else {
-              res.json({ status: true });
+              return res.json({
+                status: 200,
+              });
             }
           }
         );
