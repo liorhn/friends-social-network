@@ -27,13 +27,13 @@ export const initUsersService = (app: Express, db: Connection) => {
       [email],
       (error, results: []) => {
         if (error) {
-          return res.json({
+          return res.status(500).json({
             status: 500,
             error: "Failed to check email existence",
           });
         }
         if (results.length > 0) {
-          return res.json({
+          return res.status(409).json({
             status: 409,
             error: "Email already exists",
           });
@@ -45,12 +45,12 @@ export const initUsersService = (app: Express, db: Connection) => {
           [email, firstName, lastName, hashedPassword, stringfySalt],
           (error) => {
             if (error) {
-              return res.json({
+              return res.status(500).json({
                 status: 500,
                 error: "Failed to insert data",
               });
             } else {
-              return res.json({
+              return res.status(200).json({
                 status: 200,
               });
             }

@@ -56,11 +56,18 @@ export const Login = () => {
     }
 
     axios
-      .post(`${config.apiBase}/v1/session`, {
-        email,
-        password,
-      })
+      .post(
+        `${config.apiBase}/v1/session`,
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => {
+        console.log(res.data);
         if (res.data.errorMessage) {
           setInvalidDetails(res.data.errorMessage);
           return;

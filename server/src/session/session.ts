@@ -1,6 +1,8 @@
-import { Express } from "express";
-import { Connection } from "mysql";
+import { Express } from "express"; // Express is Type
+import { Connection } from "mysql"; // Connection is Type
 import * as crypto from "crypto-js";
+import * as JWT from "jsonwebtoken";
+
 
 //Login
 
@@ -15,6 +17,7 @@ export const initSessionService = (app: Express, db: Connection) => {
       db.query(query, [email], (err, results) => {
         if (results.length) {
           const existHashedPassword = results[0].password;
+          const id = results[0].id;
 
           const hashPassword = (password: any) => {
             const stringfySalt = results[0].salt;
@@ -34,19 +37,20 @@ export const initSessionService = (app: Express, db: Connection) => {
           const userHashedPassword = hashPassword(password);
 
           if (existHashedPassword === userHashedPassword) {
-            return res.json({
+            const token = JWT.sign({ email, id }, "LH97");
+            return res.cookie("token", token, { httpOnly: true }).json({    
               status: 200,
               message: "Authentication successful",
-            });
+            });   
           } else {
-            return res.json({
+            return res.status(401).json({
               status: 401,
               error: "Authentication failed",
               errorMessage: "Invalid username or password",
             });
           }
         } else {
-          return res.json({
+          return res.status(404).json({
             status: 404,
             message: "Couldn't find the provided email",
           });
