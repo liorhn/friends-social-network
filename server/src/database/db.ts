@@ -9,7 +9,7 @@ export const initDatabase = () => {
   });
   db.connect(function (err: string) {
     if (err) throw err;
-    console.log("Connected!");
+    console.log("DB Connected!");
   });
 
   return db;

@@ -7,9 +7,11 @@ import { SucessRegister } from "../SucessRegister/SucessRegister";
 import { Posts } from "../Posts/Posts";
 
 const router = createBrowserRouter([
+  { path: "/", element: <Login /> },
+  { path: "/home", element: <Login /> },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
-  { path: "/forgot-password", element: <ForgotPassword /> },
+  { path: "/reset-password", element: <ForgotPassword /> },
   { path: "/registration-complete", element: <SucessRegister /> },
   { path: "/posts", element: <Posts /> },
   {},

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { blueGrey } from "@mui/material/colors";
 import axios from "axios";
 import { config } from "../../config/config";
@@ -12,8 +12,11 @@ import {
   Stack,
   TextField,
   Typography,
+  LinearProgress,
 } from "@mui/material";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
+import { store } from "../../store/store";
+import { loggedIn } from "../../store/loginSlice";
 
 const imageURL =
   "https://fastly.picsum.photos/id/103/1000/500.jpg?blur=5&hmac=PgtaT5GayYD3i9VcIsdSDARKI0PSLks6KZtzEs8wTDQ";
@@ -21,11 +24,14 @@ const imageURL =
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const [invalidDetails, setInvalidDetails] = useState("");
+
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const loginSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,6 +61,8 @@ export const Login = () => {
       return;
     }
 
+    setLoading(true);
+
     axios
       .post(
         `${config.apiBase}/v1/session`,
@@ -66,14 +74,19 @@ export const Login = () => {
           withCredentials: true,
         }
       )
-      .then((res) => {
-        console.log(res.data);
-        if (res.data.errorMessage) {
-          setInvalidDetails(res.data.errorMessage);
+      .then(() => {
+        setInvalidDetails("");
+        store.dispatch(loggedIn());
+        navigate("/posts");
+      })
+      .catch((error) => {
+        if (error.response.data.errorMessage) {
+          setInvalidDetails(error.response.data.errorMessage);
           return;
-        } else {
-          setInvalidDetails("");
         }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -170,6 +183,8 @@ export const Login = () => {
             </Typography>
           )}
 
+          {loading && <LinearProgress sx={{ mt: "20px" }} />}
+
           <Button
             startIcon={<LockOpenIcon />}
             variant="contained"
@@ -190,7 +205,7 @@ export const Login = () => {
           >
             <Link
               component={RouterLink}
-              to="/forgotpass"
+              to="/reset-password"
               underline="hover"
               sx={{ fontSize: 13 }}
             >

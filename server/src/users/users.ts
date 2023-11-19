@@ -9,7 +9,12 @@ export const initUsersService = (app: Express, db: Connection) => {
     const body = req.body;
     const { email, firstName, lastName, password } = body;
 
-    const hashPassword = (password: any) => {
+    if( !email || !firstName || !lastName || !password ) {
+      res.status(400).json({message: 'Invalid fields'});
+      return;
+    }
+
+    const hashPassword = (password: string) => {
       const salt: any = crypto.lib.WordArray.random(128 / 8);
       const iterations: number = 1000;
       const hashedPassword = crypto

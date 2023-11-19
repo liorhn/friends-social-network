@@ -18,7 +18,7 @@ const db = initDatabase();
 initUsersService(app, db);
 initSessionService(app, db);
 initPostsService(app);
-
++
 app.listen(4000, () => {
   console.log("Running on server 4000!");
 });

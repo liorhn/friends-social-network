@@ -105,12 +105,13 @@ export const Register = () => {
         lastName,
         password,
       })
-      .then((res) => {
-        if (res.data.error) {
+      .then(() => {
+        setEmailError("");
+        navigate("/registration-complete");
+      })
+      .catch((error) => {
+        if (error.response.data.error) {  
           setEmailError("Email is already in use.");
-        } else {
-          setEmailError("");
-          navigate("/registration-complete");
         }
       })
       .finally(() => {
@@ -246,7 +247,7 @@ export const Register = () => {
           >
             <Link
               component={RouterLink}
-              to="/forgotpass"
+              to="/reset-password"
               underline="hover"
               sx={{ fontSize: 13 }}
             >
