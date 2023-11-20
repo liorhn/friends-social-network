@@ -9,8 +9,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "@fontsource/roboto/900.css";
 import { store } from "./store/store";
-import { Provider } from 'react-redux'
-
+import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -23,13 +22,13 @@ const theme = createTheme({
     },
     secondary: {
       main: "#d32f2f",
-    }
+    },
   },
   components: {
     MuiFormHelperText: {
       styleOverrides: {
         root: {
-          fontWeight: "bold"
+          fontWeight: "bold",
         },
       },
     },
@@ -41,7 +40,7 @@ root.render(
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Provider store={store}>
-      <AppRouter />
+        <AppRouter />
       </Provider>
     </ThemeProvider>
   </React.StrictMode>

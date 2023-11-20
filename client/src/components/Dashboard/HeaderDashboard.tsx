@@ -1,10 +1,8 @@
 import React from "react";
 import { Box, Typography, Stack, Button } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import LogoutIcon from "@mui/icons-material/Logout";
-import Badge from "@mui/material/Badge";
-// import { Dropdown, Menu, MenuItem, MenuButton } from "@mui/base";
+import { NotificationsButton } from "./NotificationsButton";
+import { LogoutButton } from "./LogoutButton";
 
 export const Dashboard = () => {
   return (
@@ -30,25 +28,12 @@ export const Dashboard = () => {
         >
           FRIENDS
         </Typography>
-        {/* <Dropdown>
-          <MenuButton>Hello</MenuButton>
-          <Menu slots={{}}>
-            <MenuItem>Profile</MenuItem>
-            <MenuItem>Settings</MenuItem>
-          </Menu>
-        </Dropdown> */}
         <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
           <Button>
             <AccountCircleIcon sx={{ color: "white" }}></AccountCircleIcon>
           </Button>
-          <Button>
-            <Badge color="primary" badgeContent={6}>
-              <NotificationsIcon sx={{ color: "white" }}></NotificationsIcon>
-            </Badge>
-          </Button>
-          <Button>
-            <LogoutIcon sx={{ color: "white" }}></LogoutIcon>
-          </Button>
+          <NotificationsButton />
+          <LogoutButton />
         </Stack>
       </Stack>
     </Box>
