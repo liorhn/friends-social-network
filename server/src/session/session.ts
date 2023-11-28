@@ -23,7 +23,7 @@ export const initSessionService = (app: Express, db: Connection) => {
     db.query(query, [email], (err, results) => {
       if (!results.length) {
         return res.status(404).json({
-          message: "Couldn't find the provided email",
+          errorMessage: "Couldn't find the provided email",
         });
       }
       const existHashedPassword = results[0].password;

@@ -11,7 +11,6 @@ export const authenticationMiddleware = (
   next: NextFunction
 ) => {
   const token = req.cookies.token;
-  console.log(token); 
   if (!token) {
     return res.status(401).json({
       message: "Unauthorized: Can not find available token",

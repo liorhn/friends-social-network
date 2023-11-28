@@ -4,7 +4,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { NotificationsButton } from "./NotificationsButton";
 import { LogoutButton } from "./LogoutButton";
 
-export const Dashboard = () => {
+export const HeaderDashboard = () => {
   return (
     <Box>
       <Stack

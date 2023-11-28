@@ -78,12 +78,12 @@ export const Login = () => {
         setInvalidDetails("");
         store.dispatch(loggedIn());
         navigate("/posts");
-      })
-      .catch((error) => {
-        if (error.response.data.errorMessage) {
-          setInvalidDetails(error.response.data.errorMessage);
+      })  
+      .catch((error) => { 
+        if (error.response.data.errorMessage) { 
+          setInvalidDetails("Email or Password is incorrect");
           return;
-        }
+        } 
       })
       .finally(() => {
         setLoading(false);

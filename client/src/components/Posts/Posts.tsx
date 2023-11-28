@@ -1,10 +1,15 @@
 import React from "react";
 import axios from "axios";
-import { Dashboard } from "../Dashboard/HeaderDashboard";
-// import { useSelector } from "react-redux";
+import { HeaderDashboard } from "../Dashboard/HeaderDashboard";
 import { config } from "../../config/config";
-// import { RootState } from "../../store/store";
-import { Box, Button } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Stack,
+} from "@mui/material";
+
+import { PostComponent } from "./PostComponent";
 
 export const Posts = () => {
   const onClick = () => {
@@ -27,10 +32,34 @@ export const Posts = () => {
 
   return (
     <>
-      <Dashboard></Dashboard>
+      <HeaderDashboard></HeaderDashboard>
       <Box>
         <Button onClick={onClick}>Just an AJAX button</Button>
+        <Stack
+          sx={{
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            gap: "10px",
+          }}
+        >
+          <TextField
+            id="outlined-multiline-static"
+            multiline
+            rows={4}
+            defaultValue="Write your post here..."
+            inputProps={{
+              style: {
+                width: "600px",
+                height: "100px",
+              },
+            }}
+          />
+          <Button variant="outlined">Submit Post</Button>
+        </Stack>
+        <PostComponent></PostComponent>
       </Box>
     </>
   );
 };
+      
