@@ -1,7 +1,7 @@
 import React from "react";
 import { Stack, TextField, Avatar, Typography, Button } from "@mui/material";
 
-export const CommentsComponent = () => {
+export const Comments = () => {
   return (
     <>
       <Stack
@@ -48,7 +48,7 @@ export const CommentsComponent = () => {
             </Typography>
           </Stack>
           <Stack
-            sx={{ flexDirection: "row", alignItems: "center", gap: "5px", }}
+            sx={{ flexDirection: "row", alignItems: "center", gap: "5px" }}
           >
             <TextField
               fullWidth

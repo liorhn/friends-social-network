@@ -1,65 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { HeaderDashboard } from "../Dashboard/HeaderDashboard";
 import { config } from "../../config/config";
-import {
-  Box,
-  Button,
-  TextField,
-  Stack,
-} from "@mui/material";
+import { Box } from "@mui/material";
+import { PostsList } from "./PostsList";
+import { CreatePost } from "./CreatePost";
+// import Skeleton from "@mui/material/Skeleton";
 
-import { PostComponent } from "./PostComponent";
+export type Post = {
+  id: number;
+  content: string;
+  user_id: number;
+  first_name: string;
+  last_name: string;
+};
 
 export const Posts = () => {
-  const onClick = () => {
-    axios
-      .post(
-        `${config.apiBase}/v1/posts`,
-        {},
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
-      })
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [postsLoading, setPostsLoading] = useState(false);
 
+  useEffect(() => {
+    axios
+      .get(`${config.apiBase}/v1/posts`, { withCredentials: true })
+      .then((response) => {
+        setPosts(response.data.result);
+        setPostsLoading(true);
+      })
       .catch((error) => {
-        console.error(error);
+        console.log(error);
       });
-  };
+  }, []);
 
   return (
     <>
       <HeaderDashboard></HeaderDashboard>
       <Box>
-        <Button onClick={onClick}>Just an AJAX button</Button>
-        <Stack
-          sx={{
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            gap: "10px",
-          }}
-        >
-          <TextField
-            id="outlined-multiline-static"
-            multiline
-            rows={4}
-            defaultValue="Write your post here..."
-            inputProps={{
-              style: {
-                width: "600px",
-                height: "100px",
-              },
-            }}
-          />
-          <Button variant="outlined">Submit Post</Button>
-        </Stack>
-        <PostComponent></PostComponent>
+        <CreatePost />
+        {postsLoading ? <PostsList posts={posts} /> : null}
+        {/* I want to put here Skeleton, ask haims guide for that shit */}
       </Box>
     </>
   );
 };
-      

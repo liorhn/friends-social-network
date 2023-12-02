@@ -7,6 +7,8 @@ import { initDatabase } from "./database/db";
 import { initPostsService } from "./posts/posts";
 import { innitUserLoggedInCheckService } from "./auth/userLoggedInCheck";
 import { initLogout } from "./auth/logout";
+import { initLikesService } from "./posts/likes";
+import { initCommentsService } from "./posts/comments";
 
 const app = express();
 app.use(
@@ -21,7 +23,9 @@ app.use(express.json());
 const db = initDatabase();
 initUsersService(app, db);
 initSessionService(app, db);
-initPostsService(app);
+initPostsService(app, db);
+initLikesService(app, db);
+initCommentsService(app, db);
 innitUserLoggedInCheckService(app);
 initLogout(app);
 

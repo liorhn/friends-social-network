@@ -9,8 +9,8 @@ export const initUsersService = (app: Express, db: Connection) => {
     const body = req.body;
     const { email, firstName, lastName, password } = body;
 
-    if( !email || !firstName || !lastName || !password ) {
-      res.status(400).json({message: 'Invalid fields'});
+    if (!email || !firstName || !lastName || !password) {
+      res.status(400).json({ message: "Invalid fields" });
       return;
     }
 
