@@ -26,17 +26,19 @@ export const initPostsService = (app: Express, db: Connection) => {
 
   app.get("/v1/posts", authenticationMiddleware, (req, res) => {
     const query = `
-    SELECT 
-    p.id,
-    p.content,
-    p.user_id,
-    u.first_name,
-    u.last_name,
-    CASE WHEN l.user_id IS NOT NULL THEN 1 ELSE 0 END AS user_likes_post
+      SELECT 
+      p.id,
+      p.content,
+      p.user_id,
+      u.first_name,
+      u.last_name,
+      CASE WHEN l.user_id IS NOT NULL THEN 1 ELSE 0 END AS user_likes_post,
+      c.comment AS comment
   FROM posts p
   INNER JOIN users u ON p.user_id = u.id
-  LEFT JOIN likes l ON p.id = l.post_id AND l.user_id = u.id  
-    `;
+  LEFT JOIN likes l ON p.id = l.post_id AND l.user_id = u.id
+  LEFT JOIN comments c ON p.id = c.post_id
+  `;
 
     db.query(query, (error, result) => {
       if (error) {

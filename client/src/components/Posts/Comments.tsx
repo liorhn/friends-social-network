@@ -1,7 +1,38 @@
-import React from "react";
-import { Stack, TextField, Avatar, Typography, Button } from "@mui/material";
+import React, { useState } from "react";
+import { Stack, TextField, Button, Typography } from "@mui/material";
+import axios from "axios";
+import { config } from "../../config/config";
+import { Comment } from "./Comment";
 
-export const Comments = () => {
+export const Comments = ({
+  postId,
+  userId,
+  comment,
+  postFirstName,
+  postLastName,
+}: {
+  postId: number;
+  userId: number;
+  comment: string;
+  postFirstName: string;
+  postLastName: string;
+}) => {
+  const [newComment, setNewComment] = useState("");
+  const firstLetterFirstName = postFirstName ? postFirstName.charAt(0) : null;
+  const firstLetterLastName = postLastName ? postLastName.charAt(0) : null;
+
+  const handlerSubmitComment = () => {
+    axios
+      .post(
+        `${config.apiBase}/v1/posts/${postId}/comments`,
+        { newComment, userId, postId },
+        { withCredentials: true }
+      )
+      .then((response) => {
+        console.log(response.data);
+      });
+  };
+
   return (
     <>
       <Stack
@@ -13,60 +44,39 @@ export const Comments = () => {
           pt: "10px",
         }}
       >
-        <Stack sx={{ gap: "15px", pt: "20px" }}>
-          <Stack
-            sx={{ flexDirection: "row", alignItems: "center", gap: "10px" }}
-          >
-            <Avatar sx={{ width: 28, height: 28, fontSize: "14px" }}>LH</Avatar>
-            <Typography sx={{ fontSize: "14px" }}>
-              Just a random comment
-            </Typography>
-          </Stack>
-          <Stack
-            sx={{ flexDirection: "row", alignItems: "center", gap: "10px" }}
-          >
-            <Avatar sx={{ width: 28, height: 28, fontSize: "14px" }}>HH</Avatar>
-            <Typography sx={{ fontSize: "14px" }}>
-              Just a really long long long long long long random comment
-            </Typography>
-          </Stack>
-          <Stack
-            sx={{ flexDirection: "row", alignItems: "center", gap: "10px" }}
-          >
-            <Avatar sx={{ width: 28, height: 28, fontSize: "14px" }}>JD</Avatar>
-            <Typography sx={{ fontSize: "14px" }}>
-              Just a really long long long long long long random comment that
-              should flex down
-            </Typography>
-          </Stack>
-          <Stack
-            sx={{ flexDirection: "row", alignItems: "center", gap: "10px" }}
-          >
-            <Avatar sx={{ width: 28, height: 28, fontSize: "14px" }}>SB</Avatar>
-            <Typography sx={{ fontSize: "14px" }}>
-              Im here for gossip
-            </Typography>
-          </Stack>
-          <Stack
-            sx={{ flexDirection: "row", alignItems: "center", gap: "5px" }}
-          >
-            <TextField
-              fullWidth
-              placeholder="Write your comment here.."
-              inputProps={{
-                style: {
-                  height: "3.5px",
-                  width: "100%",
-                },
-              }}
-              sx={{
-                "& input::placeholder": {
-                  fontSize: "13px",
-                },
-              }}
-            />
-            <Button variant="outlined">POST</Button>
-          </Stack>
+        {comment ? (
+          <Comment
+            firstLetterFirstName={firstLetterFirstName}
+            firstLetterLastName={firstLetterLastName}
+            comment={comment}
+          />
+        ) : (
+          <Typography sx={{ fontSize: "14px", p: "20px" }}>
+            No comments to this post, feel free to add a comment! :)
+          </Typography>
+        )}
+        <Stack sx={{ flexDirection: "row", alignItems: "center", gap: "5px" }}>
+          <TextField
+            fullWidth
+            placeholder="Write your comment here.."
+            inputProps={{
+              style: {
+                height: "3.5px",
+                width: "100%",
+              },
+            }}
+            sx={{
+              "& input::placeholder": {
+                fontSize: "13px",
+              },
+            }}
+            onChange={(e) => {
+              setNewComment(e.target.value);
+            }}
+          />
+          <Button onClick={handlerSubmitComment} variant="outlined">
+            POST
+          </Button>
         </Stack>
       </Stack>
     </>
