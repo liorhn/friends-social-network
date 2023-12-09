@@ -7,10 +7,11 @@ export const initCommentsService = (app: Express, db: Connection) => {
     "/v1/posts/:postId/comments",
     authenticationMiddleware,
     (req, res) => {
-      const body = req.body;
-      const { newComment, userId, postId } = body;
+      const userId = res.locals.userId;
+      const postId = req.params.postId;
+      const { newComment } = req.body;
 
-      const query = `INSERT INTO comments (comment, user_id ,post_id) VALUES (?, ?, ?)`;
+      const query = `INSERT INTO comments (comment, user_id, post_id) VALUES (?, ?, ?)`;
 
       db.query(query, [newComment, userId, postId], (error) => {
         if (error) {
@@ -20,6 +21,24 @@ export const initCommentsService = (app: Express, db: Connection) => {
           });
         } else {
           return res.status(200);
+        }
+      });
+    }
+  );
+
+  
+  app.get(
+    "/v1/posts/:postId/comments",
+    authenticationMiddleware,
+    (req, res) => {
+      const commentQuery = ` SELECT * FROM comments `;
+      db.query(commentQuery, (error, result) => {
+        if (error) {
+          res.status(500).json({ error: "SQL Error" });
+        } else {
+          res.status(200).json({
+            result,
+          });
         }
       });
     }

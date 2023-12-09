@@ -7,11 +7,9 @@ import { config } from "../../config/config";
 
 export const Like = ({
   postId,
-  userId,
   userLikesPost,
 }: {
   postId: number;
-  userId: number;
   userLikesPost: number;
 }) => {
   const [isLikedPost, setIsLikedPost] = useState(!!userLikesPost);
@@ -19,15 +17,25 @@ export const Like = ({
   const handlerLikedButton = () => {
     setIsLikedPost(!isLikedPost);
 
-    const method = isLikedPost ? "put" : "post";
-
-    axios[method](
-      `${config.apiBase}/v1/posts/${postId}/likes`,
-      { postId, userId },
-      { withCredentials: true }
-    ).then((res) => {
-      console.log(res.data);
-    });
+    if (!isLikedPost) {
+      axios
+        .post(
+          `${config.apiBase}/v1/posts/${postId}/likes`,
+          {},
+          { withCredentials: true }
+        )
+        .then((res) => {
+          console.log(res.data);
+        });
+    } else {
+      axios
+        .delete(`${config.apiBase}/v1/posts/${postId}/likes`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log(res.data);
+        });
+    }
   };
 
   return (

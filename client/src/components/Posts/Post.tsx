@@ -51,17 +51,17 @@ export const Post = ({ post }: any) => {
       >
         <Like
           postId={post.id}
-          userId={post.user_id}
           userLikesPost={post.user_likes_post}
         />
         <CommentsButton
           isCommentOpen={isCommentOpen}
           setIsCommentOpen={setIsCommentOpen}
+          postId={post.id}
         />
       </Stack>
 
       <Collapse in={isCommentOpen}>
-        <Comments postFirstName={post.first_name} postLastName={post.last_name} postId={post.id} userId={post.user_id} comment={post.comment} />
+       {isCommentOpen ? <Comments /> : Skeletong} <Comments postFirstName={post.first_name} postLastName={post.last_name} postId={post.id} userId={post.user_id} comment={post.comment} />
       </Collapse>
     </Stack>
   );

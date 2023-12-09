@@ -4,9 +4,10 @@ import { authenticationMiddleware } from "../middleware/authenticationMiddleware
 
 export const initLikesService = (app: Express, db: Connection) => {
   app.post("/v1/posts/:postId/likes", authenticationMiddleware, (req, res) => {
-    const body = req.body;
-    const { postId, userId } = body;
-
+    const userId = res.locals.userId;
+    const postId = req.params.postId;
+    
+ // todo: postId validations
     const query = `INSERT INTO likes (post_id, user_id) VALUES (?, ?)`;
 
     db.query(query, [postId, userId], (error) => {
@@ -21,9 +22,10 @@ export const initLikesService = (app: Express, db: Connection) => {
     });
   });
 
-  app.put("/v1/posts/:postId/likes", authenticationMiddleware, (req, res) => {
-    const body = req.body;
-    const { postId, userId } = body;
+  app.delete("/v1/posts/:postId/likes", authenticationMiddleware, (req, res) => {
+    const userId = res.locals.userId;
+    const postId = req.params.postId;
+    console.log(userId, postId);
 
     const deleteQuery = `DELETE FROM likes WHERE post_id = ? AND user_id = ?`;
 

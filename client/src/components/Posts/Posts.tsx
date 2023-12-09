@@ -6,6 +6,7 @@ import { Box, Stack, Skeleton } from "@mui/material";
 import { PostsList } from "./PostsList";
 import { CreatePost } from "./CreatePost";
 
+
 export type Post = {
   id: number;
   content: string;
@@ -16,14 +17,14 @@ export type Post = {
 
 export const Posts = () => {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [postsLoading] = useState(false);
+  const [postsLoaded, setPostsLoaded] = useState(false);
 
   useEffect(() => {
     axios
       .get(`${config.apiBase}/v1/posts`, { withCredentials: true })
       .then((response) => {
         setPosts(response.data.result);
-        // setPostsLoading(true);
+        setPostsLoaded(true);
       })
       .catch((error) => {
         console.log(error);
@@ -35,7 +36,7 @@ export const Posts = () => {
       <HeaderDashboard></HeaderDashboard>
       <Box>
         <CreatePost />
-        {postsLoading ? <PostsList posts={posts} /> : <PostsSkeleton />}
+        {postsLoaded ? <PostsList posts={posts} /> : <PostsSkeleton />}
       </Box>
     </>
   );
