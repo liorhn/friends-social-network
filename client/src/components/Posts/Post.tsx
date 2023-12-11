@@ -4,8 +4,9 @@ import Collapse from "@mui/material/Collapse";
 import { Comments } from "./Comments";
 import { CommentsButton } from "./CommentsButton";
 import { Like } from "./Like";
+import { PostType } from "./PostsPage";
 
-export const Post = ({ post }: any) => {
+export const Post = ({ post }: {post : PostType}) => {
   const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
   const firstLetterFirstName = post.first_name
     ? post.first_name.charAt(0)
@@ -49,10 +50,7 @@ export const Post = ({ post }: any) => {
           borderTop: "1px solid #00003026",
         }}
       >
-        <Like
-          postId={post.id}
-          userLikesPost={post.user_likes_post}
-        />
+        <Like postId={post.id} userLikesPost={post.user_likes_post} />
         <CommentsButton
           isCommentOpen={isCommentOpen}
           setIsCommentOpen={setIsCommentOpen}
@@ -61,7 +59,9 @@ export const Post = ({ post }: any) => {
       </Stack>
 
       <Collapse in={isCommentOpen}>
-       {isCommentOpen ? <Comments /> : Skeletong} <Comments postFirstName={post.first_name} postLastName={post.last_name} postId={post.id} userId={post.user_id} comment={post.comment} />
+        <Comments
+          post={post}
+        />
       </Collapse>
     </Stack>
   );

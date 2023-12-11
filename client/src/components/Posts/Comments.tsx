@@ -1,25 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Stack, TextField, Button, Typography } from "@mui/material";
 import axios from "axios";
 import { config } from "../../config/config";
 import { Comment } from "./Comment";
+import { PostType } from "./PostsPage";
 
-export const Comments = ({
-  postId,
-  userId,
-  comment,
-  postFirstName,
-  postLastName,
-}: {
-  postId: number;
-  userId: number;
-  comment: string;
-  postFirstName: string;
-  postLastName: string;
-}) => {
+export const Comments = ({post} : {post : PostType}) => {
   const [newComment, setNewComment] = useState("");
-  const firstLetterFirstName = postFirstName ? postFirstName.charAt(0) : null;
-  const firstLetterLastName = postLastName ? postLastName.charAt(0) : null;
+  const firstLetterFirstName = post.first_name ? post.first_name.charAt(0) : null;
+  const firstLetterLastName = post.last_name ? post.last_name.charAt(0) : null;
+  const [comments, setComments] = useState([]);
+
+  const postId = post.id;
+  const userId = post.user_id;
+
+  useEffect(() => {
+    axios
+      .get(`${config.apiBase}/v1/posts/${postId}/comments`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setComments(response.data.result);
+      })
+  }, [postId]);
 
   const handlerSubmitComment = () => {
     axios
@@ -44,12 +47,15 @@ export const Comments = ({
           pt: "10px",
         }}
       >
-        {comment ? (
-          <Comment
-            firstLetterFirstName={firstLetterFirstName}
-            firstLetterLastName={firstLetterLastName}
-            comment={comment}
-          />
+        {comments ? (
+          comments.map((comment: any, index) => (
+            <Comment
+              key={index}
+              firstLetterFirstName={firstLetterFirstName}
+              firstLetterLastName={firstLetterLastName}
+              comment={comment.comment}
+            />
+          ))
         ) : (
           <Typography sx={{ fontSize: "14px", p: "20px" }}>
             No comments to this post, feel free to add a comment! :)

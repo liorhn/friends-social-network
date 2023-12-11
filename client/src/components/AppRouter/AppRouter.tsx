@@ -4,7 +4,7 @@ import { Login } from "../Login/Login";
 import { Register } from "../Register/Register";
 import { ForgotPassword } from "../ForgotPassword/ForgotPassword";
 import { SucessRegister } from "../SucessRegister/SucessRegister";
-import { Posts } from "../Posts/Posts";
+import { Posts } from "../Posts/PostsPage";
 import { PageRequireAuth } from "./PageRequireAuth";
 import { LoggedInUserCheck } from "./LoggedInUserCheck";
 

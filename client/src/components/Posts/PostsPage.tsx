@@ -6,17 +6,17 @@ import { Box, Stack, Skeleton } from "@mui/material";
 import { PostsList } from "./PostsList";
 import { CreatePost } from "./CreatePost";
 
-
-export type Post = {
+export type PostType = {
   id: number;
   content: string;
   user_id: number;
   first_name: string;
   last_name: string;
+  user_likes_post: number;
 };
 
 export const Posts = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<PostType[]>([]);
   const [postsLoaded, setPostsLoaded] = useState(false);
 
   useEffect(() => {

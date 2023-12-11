@@ -1,6 +1,6 @@
 import React from "react";
 import { Post } from "./Post";
-import { Post as PostType } from "./Posts";
+import { PostType } from "./PostsPage";
 
 export const PostsList = ({ posts }: { posts: PostType[] }) => {
   return (
