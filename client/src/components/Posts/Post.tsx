@@ -60,7 +60,7 @@ export const Post = ({ post }: {post : PostType}) => {
 
       <Collapse in={isCommentOpen}>
         <Comments
-          post={post}
+          post={post} isCommentOpen={isCommentOpen}
         />
       </Collapse>
     </Stack>

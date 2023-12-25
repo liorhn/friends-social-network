@@ -3,7 +3,7 @@ import { Stack, Button, TextField } from "@mui/material";
 import axios from "axios";
 import { config } from "../../config/config";
 
-export const CreatePost = () => {
+export const CreatePost = ({ onCreate }: any) => {
   const [postContent, setPostContent] = useState("");
 
   const handlerSubmitPost = () => {
@@ -15,8 +15,20 @@ export const CreatePost = () => {
           withCredentials: true,
         }
       )
-      .then((response) => {
-        console.log(response.data);
+      .then(() => {
+        axios
+          .get(`${config.apiBase}/v1/posts`, {
+            withCredentials: true,
+          })
+          .then((response) => {
+            const newPost = response.data.result;
+            const lastNewPost = newPost[newPost.length - 1];
+            onCreate(lastNewPost);
+          })
+
+          .catch((error) => {
+            console.error(error);
+          });
       })
 
       .catch((error) => {

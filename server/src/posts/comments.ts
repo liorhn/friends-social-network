@@ -20,13 +20,12 @@ export const initCommentsService = (app: Express, db: Connection) => {
             error: "Failed to insert data",
           });
         } else {
-          return res.status(200);
+          return res.status(200).end();
         }
       });
     }
   );
 
-  
   app.get(
     "/v1/posts/:postId/comments",
     authenticationMiddleware,

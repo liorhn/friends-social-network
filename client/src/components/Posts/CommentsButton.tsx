@@ -7,7 +7,6 @@ import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
 export const CommentsButton = ({
   isCommentOpen,
   setIsCommentOpen,
-  postId,
 }: {
   isCommentOpen: boolean;
   setIsCommentOpen: (state: boolean) => void;

@@ -5,14 +5,33 @@ import { config } from "../../config/config";
 import { Comment } from "./Comment";
 import { PostType } from "./PostsPage";
 
-export const Comments = ({post} : {post : PostType}) => {
+export type CommentType = {
+  comment: string;
+  id: number;
+  userId: number;
+  post_id: number;
+};
+
+export const Comments = ({
+  post,
+  isCommentOpen,
+}: {
+  post: PostType;
+  isCommentOpen: boolean;
+}) => {
   const [newComment, setNewComment] = useState("");
-  const firstLetterFirstName = post.first_name ? post.first_name.charAt(0) : null;
+  const firstLetterFirstName = post.first_name
+    ? post.first_name.charAt(0)
+    : null;
   const firstLetterLastName = post.last_name ? post.last_name.charAt(0) : null;
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState<CommentType[]>([]);
 
   const postId = post.id;
   const userId = post.user_id;
+
+  const commentsForEachPost = comments.filter((comment: CommentType) => {
+    return comment.post_id === postId;
+  });
 
   useEffect(() => {
     axios
@@ -21,10 +40,11 @@ export const Comments = ({post} : {post : PostType}) => {
       })
       .then((response) => {
         setComments(response.data.result);
-      })
-  }, [postId]);
+      });
+  }, [postId, isCommentOpen]);
 
   const handlerSubmitComment = () => {
+    console.log("sucess");
     axios
       .post(
         `${config.apiBase}/v1/posts/${postId}/comments`,
@@ -32,7 +52,19 @@ export const Comments = ({post} : {post : PostType}) => {
         { withCredentials: true }
       )
       .then((response) => {
-        console.log(response.data);
+        axios
+          .get(`${config.apiBase}/v1/posts/${postId}/comments`, {
+            withCredentials: true,
+          })
+          .then((response) => {
+            const newComment = response.data.result;
+            console.log(newComment);
+            const lastNewComment = newComment[newComment.length - 1];
+            setComments([...comments, lastNewComment]);
+          });
+      })  
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -47,8 +79,8 @@ export const Comments = ({post} : {post : PostType}) => {
           pt: "10px",
         }}
       >
-        {comments ? (
-          comments.map((comment: any, index) => (
+        {comments.length !== 0 ? (
+          commentsForEachPost.map((comment: CommentType, index) => (
             <Comment
               key={index}
               firstLetterFirstName={firstLetterFirstName}

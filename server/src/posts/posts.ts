@@ -10,7 +10,7 @@ export const initPostsService = (app: Express, db: Connection) => {
     // todo: content validation
     const query = `INSERT INTO posts (content, user_id) VALUES (?, ?)`;
 
-    db.query(query, [postContent, userId], (error) => {
+    db.query(query, [postContent, userId], (error, result) => {
       if (error) {
         return res.status(500).json({
           status: 500,
@@ -19,6 +19,7 @@ export const initPostsService = (app: Express, db: Connection) => {
       } else {
         return res.status(200).json({
           status: 200,
+          result,
         });
       }
     });
@@ -26,7 +27,6 @@ export const initPostsService = (app: Express, db: Connection) => {
 
   app.get("/v1/posts", authenticationMiddleware, (req, res) => {
     //todo: not is owner liked, is logged in user liked the post
-    //
     const query = `
       SELECT 
       p.id,
