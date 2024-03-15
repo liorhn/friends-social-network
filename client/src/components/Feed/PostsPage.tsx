@@ -18,7 +18,7 @@ export type PostType = {
 
 export const Posts = () => {
   const [posts, setPosts] = useState<PostType[]>([]);
-  const [postsLoaded, setPostsLoaded] = useState(false);
+  const [postsLoaded, setPostsLoaded] = useState(false);  
 
   useEffect(() => {
     axios
@@ -36,7 +36,7 @@ export const Posts = () => {
     <>
       <HeaderDashboard></HeaderDashboard>
       <Box>
-        <CreatePost onCreate={(lastNewPost : any) => {setPosts([lastNewPost, ...posts])}} />
+        <CreatePost onCreate={(lastNewPost : PostType) => {setPosts([lastNewPost, ...posts])}} />
         {postsLoaded ? <PostsList posts={posts} /> : <PostsSkeleton />}
       </Box>
     </>

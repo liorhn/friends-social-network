@@ -11,7 +11,7 @@ import { loggedOut } from "../../store/userSlice";
 export const LogoutButton = () => {
   const navigate = useNavigate();
 
-  const clickHanlder = () => {
+  const logOutHandler = () => {
     axios
       .get(`${config.apiBase}/v1/logout`, {
         withCredentials: true,
@@ -27,7 +27,7 @@ export const LogoutButton = () => {
 
   return (
     <>
-      <Button onClick={clickHanlder}>
+      <Button onClick={logOutHandler}>
         <LogoutIcon sx={{ color: "white" }}></LogoutIcon>
       </Button>
     </>

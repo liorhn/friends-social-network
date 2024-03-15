@@ -7,7 +7,7 @@ import { Like } from "./Like";
 import { PostType } from "./PostsPage";
 
 export const Post = ({ post }: {post : PostType}) => {
-  const [isCommentOpen, setIsCommentOpen] = useState<boolean>(false);
+  const [isCommentOpen, setIsCommentOpen] = useState(false);
   const firstLetterFirstName = post.first_name
     ? post.first_name.charAt(0)
     : null;
@@ -52,7 +52,7 @@ export const Post = ({ post }: {post : PostType}) => {
       >
         <Like postId={post.id} userLikesPost={post.user_likes_post} />
         <CommentsButton
-          isCommentOpen={isCommentOpen}
+          isCommentOpen={isCommentOpen} 
           setIsCommentOpen={setIsCommentOpen}
           postId={post.id}
         />

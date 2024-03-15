@@ -4,16 +4,15 @@ import { blueGrey } from "@mui/material/colors";
 import { Link as RouterLink } from "react-router-dom";
 import { Paper, Typography, Link, Stack } from "@mui/material";
 import TaskAlt from '@mui/icons-material/TaskAlt';
+import { BackgroundImage } from "../BackgroundImage/BackgroundImage";
 
-const imageURL =
-  "https://fastly.picsum.photos/id/103/1000/500.jpg?blur=5&hmac=PgtaT5GayYD3i9VcIsdSDARKI0PSLks6KZtzEs8wTDQ";
 
 export const SucessRegister = () => {
   return (
     <Box
       sx={{
         bgcolor: blueGrey[50],
-        backgroundImage: `url(${imageURL})`,
+        backgroundImage: `url(${BackgroundImage.imageUrl})`,
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",

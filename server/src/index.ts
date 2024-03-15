@@ -4,11 +4,11 @@ import * as cookieParser from "cookie-parser";
 import { initUsersService } from "./users/users";
 import { initSessionService } from "./session/session";
 import { initDatabase } from "./database/db";
-import { initPostsService } from "./posts/posts";
+import { initPostsService } from "./feed/posts";
 import { innitUserLoggedInCheckService } from "./auth/userLoggedInCheck";
 import { initLogout } from "./auth/logout";
-import { initLikesService } from "./posts/likes";
-import { initCommentsService } from "./posts/comments";
+import { initLikesService } from "./feed/likes";
+import { initCommentsService } from "./feed/comments";
 
 const app = express();
 app.use(
@@ -24,9 +24,9 @@ const db = initDatabase();
 initUsersService(app, db);
 initSessionService(app, db);
 initPostsService(app, db);
-initLikesService(app, db);
+initLikesService(app, db);  
 initCommentsService(app, db);
-innitUserLoggedInCheckService(app);
+innitUserLoggedInCheckService(app); 
 initLogout(app);
 
 app.listen(4000, () => {

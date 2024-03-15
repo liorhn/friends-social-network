@@ -2,10 +2,10 @@ import * as mysql from "mysql";
 
 export const initDatabase = () => {
   const db = mysql.createConnection({
-    host: "127.0.0.1",
+    host: "localhost",
     user: "root",
-    password: "123456",
-    database: "friends_schema",
+    password: "admin",
+    database: "friends",
   });
   db.connect(function (err: string) {
     if (err) throw err;
@@ -13,4 +13,4 @@ export const initDatabase = () => {
   });
 
   return db;
-};
+};  

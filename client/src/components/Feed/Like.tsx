@@ -16,7 +16,7 @@ export const Like = ({
 
   const handlerLikedButton = () => {
     setIsLikedPost(!isLikedPost);
-
+    
     if (!isLikedPost) {
       axios
         .post(

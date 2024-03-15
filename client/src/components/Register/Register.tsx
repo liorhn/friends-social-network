@@ -15,9 +15,8 @@ import {
   LinearProgress,
 } from "@mui/material";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
+import { BackgroundImage } from "../BackgroundImage/BackgroundImage";
 
-const imageURL =
-  "https://fastly.picsum.photos/id/103/1000/500.jpg?blur=5&hmac=PgtaT5GayYD3i9VcIsdSDARKI0PSLks6KZtzEs8wTDQ";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -123,7 +122,7 @@ export const Register = () => {
     <Box
       sx={{
         bgcolor: blueGrey[50],
-        backgroundImage: `url(${imageURL})`,
+        backgroundImage: `url(${BackgroundImage.imageUrl})`,
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",

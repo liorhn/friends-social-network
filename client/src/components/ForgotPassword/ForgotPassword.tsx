@@ -12,16 +12,15 @@ import {
   Typography,
 } from "@mui/material";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
+import { BackgroundImage } from "../BackgroundImage/BackgroundImage";
 
-const imageURL =
-  "https://fastly.picsum.photos/id/103/1000/500.jpg?blur=5&hmac=PgtaT5GayYD3i9VcIsdSDARKI0PSLks6KZtzEs8wTDQ";
 
 export const ForgotPassword = () => {
   return (
     <Box
       sx={{
         bgcolor: blueGrey[50],
-        backgroundImage: `url(${imageURL})`,
+        backgroundImage: `url(${BackgroundImage.imageUrl})`,
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",

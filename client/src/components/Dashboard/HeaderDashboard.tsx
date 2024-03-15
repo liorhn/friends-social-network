@@ -1,8 +1,9 @@
 import React from "react";
-import { Box, Typography, Stack, Button } from "@mui/material";
+import { Box, Typography, Stack, Link, Button } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { NotificationsButton } from "./NotificationsButton";
 import { LogoutButton } from "./LogoutButton";
+import { Link as RouterLink } from "react-router-dom";
 
 export const HeaderDashboard = () => {
   return (
@@ -17,21 +18,25 @@ export const HeaderDashboard = () => {
           justifyContent: "space-between",
         }}
       >
-        <Typography
-          sx={{
-            color: "white",
-            fontWeight: 900,
-            textTransform: "uppercase",
-          }}
-          variant="h4"
-          component="h1"
-        >
-          FRIENDS
-        </Typography>
+        <Link component={RouterLink} to="/home" >
+          <Typography
+            sx={{
+              color: "white",
+              fontWeight: 900,
+              textTransform: "uppercase",
+            }}
+            variant="h4"
+            component="h1"
+          >
+            FRIENDS
+          </Typography>
+        </Link>
         <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
-          <Button>
-            <AccountCircleIcon sx={{ color: "white" }}></AccountCircleIcon>
-          </Button>
+          <Link component={RouterLink} to="/profile" >
+            <Button>
+              <AccountCircleIcon sx={{ color: "white" }}></AccountCircleIcon>
+            </Button>
+          </Link>
           <NotificationsButton />
           <LogoutButton />
         </Stack>

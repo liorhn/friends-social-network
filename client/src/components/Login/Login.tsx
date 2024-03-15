@@ -17,9 +17,7 @@ import {
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { store } from "../../store/store";
 import { loggedIn } from "../../store/userSlice";
-
-const imageURL =
-  "https://fastly.picsum.photos/id/103/1000/500.jpg?blur=5&hmac=PgtaT5GayYD3i9VcIsdSDARKI0PSLks6KZtzEs8wTDQ";
+import { BackgroundImage } from "../BackgroundImage/BackgroundImage";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -94,7 +92,7 @@ export const Login = () => {
     <Box
       sx={{
         bgcolor: blueGrey[50],
-        backgroundImage: `url(${imageURL})`,
+        backgroundImage: `url(${BackgroundImage.imageUrl})`,
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",

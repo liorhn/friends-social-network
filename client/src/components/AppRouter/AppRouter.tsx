@@ -4,17 +4,32 @@ import { Login } from "../Login/Login";
 import { Register } from "../Register/Register";
 import { ForgotPassword } from "../ForgotPassword/ForgotPassword";
 import { SucessRegister } from "../SucessRegister/SucessRegister";
-import { Posts } from "../Posts/PostsPage";
+import { Posts } from "../Feed/PostsPage";
 import { PageRequireAuth } from "./PageRequireAuth";
 import { LoggedInUserCheck } from "./LoggedInUserCheck";
+import { Profile } from "../Profile/Profile";
 
 const router = createBrowserRouter([
-  { path: "/", element: <Login /> },
-  { path: "/home", element: <Login /> },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
   { path: "/reset-password", element: <ForgotPassword /> },
   { path: "/registration-complete", element: <SucessRegister /> },
+  {
+    path: "/",
+    element: (
+      <PageRequireAuth>
+        <Posts /> 
+      </PageRequireAuth>
+    ),
+  },
+  {
+    path: "/home",
+    element: (
+      <PageRequireAuth>
+        <Posts />
+      </PageRequireAuth>
+    ),
+  },
   {
     path: "/posts",
     element: (
@@ -23,13 +38,20 @@ const router = createBrowserRouter([
       </PageRequireAuth>
     ),
   },
-  {},
+  {
+    path: "/profile", element: (
+      <PageRequireAuth>
+        <Profile />
+      </PageRequireAuth>
+    )
+  },
 ]);
 
 export function AppRouter() {
   return (
-      <LoggedInUserCheck>
-        <RouterProvider router={router} />
-      </LoggedInUserCheck>
+    <LoggedInUserCheck>
+      <RouterProvider router={router} />
+    </LoggedInUserCheck>
   );
 }
+
