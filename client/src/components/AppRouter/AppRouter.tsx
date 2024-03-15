@@ -8,7 +8,7 @@ import { Posts } from "../Feed/FeedPage";
 import { PageRequireAuth } from "./PageRequireAuth";
 import { LoggedInUserCheck } from "./LoggedInUserCheck";
 import { Profile } from "../Profile/Profile";
-import { Friends } from "../Feed/Friends";
+import { Friends } from "../Friends/Friends";
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login /> },

@@ -6,7 +6,6 @@ import { LogoutButton } from "./LogoutButton";
 import { Link as RouterLink } from "react-router-dom";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import BrushIcon from '@mui/icons-material/Brush';
-import { Search } from "../Feed/Search";
 import { FriendsButton } from "./FriendsButton";
 
 
@@ -38,7 +37,6 @@ export const HeaderDashboard = () => {
           </Typography>
         </Link>
         <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
-          <Search />
           <Link component={RouterLink} to="/profile" >
             <Button>
               <AccountCircleIcon sx={{ color: "white" }}></AccountCircleIcon>
