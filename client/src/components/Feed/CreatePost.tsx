@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Stack, Button, TextField } from "@mui/material";
 import axios from "axios";
 import { config } from "../../config/config";
+import { Filter } from "./Filter";
 
 export const CreatePost = ({ onCreate }: any) => {
   const [postContent, setPostContent] = useState("");
@@ -44,26 +45,38 @@ export const CreatePost = ({ onCreate }: any) => {
           alignItems: "center",
           flexDirection: "column",
           gap: "10px",
+          mt: "50px"
         }}
       >
         <TextField
-          id="outlined-multiline-static"
-          multiline
-          rows={4}
-          defaultValue="Write your post here..."
-          inputProps={{
-            style: {
-              width: "600px",
-              height: "100px",
+          defaultValue="Whats on your mind?"
+          sx={{
+            borderWidth: "1px",
+            borderStyle: "solid",
+            borderColor: "primary.main",
+            borderRadius: "10px",
+            p: "20px",
+            width: "600px",
+            height: "100px",
+            input: {
+              color: 'gray',
             },
           }}
+          variant="standard"
+          InputProps={{
+            disableUnderline: true,
+          }}
+
           onChange={(e) => {
             setPostContent(e.target.value);
           }}
         />
-        <Button variant="outlined" onClick={handlerSubmitPost}>
-          Submit Post
-        </Button>
+        <Stack sx={{ flexDirection: "coulmn", gap: "10px" }}>
+          <Button variant="outlined" onClick={handlerSubmitPost}>
+            Submit Post
+          </Button>
+          <Filter />
+        </Stack>
       </Stack>
     </>
   );

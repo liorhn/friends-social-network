@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import { store } from "../../store/store";
 import { loggedOut } from "../../store/userSlice";
-
+import { useUserInfoSelector } from '../../selectors/userInfoSelectors';
 
 export const Profile = () => {
 
@@ -30,15 +30,23 @@ export const Profile = () => {
             });
     };
 
+    const { firstName, lastName, email } = useUserInfoSelector();
+
+    const firstNameFirstLetter = firstName?.charAt(0);
+    const lastNameFirstLetter = lastName?.charAt(0);
+
+
     return (
         <>
             <HeaderDashboard />
-            <Stack sx={{ justifyContent: "center", alignItems: "center", flexDirection: "column", gap: "80px", mt: "100px" }}>
+            <Stack sx={{ justifyContent: "center", alignItems: "center", flexDirection: "column", gap: "80px", mt: "50px" }}>
                 <Typography sx={{
                     textAlign: "center",
                     color: "primary.main",
                     fontWeight: 900,
                     textTransform: "uppercase",
+                    fontSize: "40px",
+                    textDecoration: "underline",
                 }}
                     variant="h4"
                     component="h1">
@@ -48,7 +56,7 @@ export const Profile = () => {
                     justifyContent: "center", alignItems: "center", p: "50px", width: "500px", height: "500px", borderColor: "primary.main", borderWidth: "1", borderStyle: "solid", borderRadius: "20px", gap: "50px"
                 }}>
                     <Box>
-                        <Avatar sx={{ bgcolor: "primary.main", width: "150px", height: "150px", fontSize: "90px" }}>LH</Avatar>
+                        <Avatar sx={{ bgcolor: "primary.main", width: "150px", height: "150px", fontSize: "90px" }}>{firstNameFirstLetter}{lastNameFirstLetter}</Avatar>
                     </Box>
                     <List>
                         <ListItem>
@@ -56,7 +64,7 @@ export const Profile = () => {
                                 <BadgeIcon sx={{ color: "primary.main" }} />
                             </ListItemIcon>
                             <ListItemText sx={{ color: "primary.main" }}>
-                                Lior Haninaev
+                                {firstName} {lastName}
                             </ListItemText>
                         </ListItem>
                         <ListItem>
@@ -64,7 +72,7 @@ export const Profile = () => {
                                 <AlternateEmailIcon sx={{ color: "primary.main" }} />
                             </ListItemIcon>
                             <ListItemText sx={{ color: "primary.main" }}>
-                                omglior@gmail.com
+                                {email}
                             </ListItemText>
                         </ListItem>
                     </List>

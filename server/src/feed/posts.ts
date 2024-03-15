@@ -33,7 +33,8 @@ export const initPostsService = (app: Express, db: Connection) => {
       p.content,
       p.user_id,
       u.first_name,
-      u.last_name,  
+      u.last_name,
+      u.email,  
       CASE WHEN l.user_id IS NOT NULL THEN 1 ELSE 0 END AS user_likes_post
     FROM posts p
     INNER JOIN users u ON p.user_id = u.id

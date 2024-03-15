@@ -4,10 +4,11 @@ import { Login } from "../Login/Login";
 import { Register } from "../Register/Register";
 import { ForgotPassword } from "../ForgotPassword/ForgotPassword";
 import { SucessRegister } from "../SucessRegister/SucessRegister";
-import { Posts } from "../Feed/PostsPage";
+import { Posts } from "../Feed/FeedPage";
 import { PageRequireAuth } from "./PageRequireAuth";
 import { LoggedInUserCheck } from "./LoggedInUserCheck";
 import { Profile } from "../Profile/Profile";
+import { Friends } from "../Feed/Friends";
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <PageRequireAuth>
-        <Posts /> 
+        <Posts />
       </PageRequireAuth>
     ),
   },
@@ -45,6 +46,13 @@ const router = createBrowserRouter([
       </PageRequireAuth>
     )
   },
+  {
+    path: "/friends", element: (
+      <PageRequireAuth>
+        <Friends />
+      </PageRequireAuth>
+    )
+  }
 ]);
 
 export function AppRouter() {

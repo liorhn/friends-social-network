@@ -4,7 +4,7 @@ import Collapse from "@mui/material/Collapse";
 import { Comments } from "./Comments";
 import { CommentsButton } from "./CommentsButton";
 import { Like } from "./Like";
-import { PostType } from "./PostsPage";
+import { PostType } from "./FeedPage";
 
 export const Post = ({ post }: {post : PostType}) => {
   const [isCommentOpen, setIsCommentOpen] = useState(false);

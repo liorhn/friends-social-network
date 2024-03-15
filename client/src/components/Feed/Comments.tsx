@@ -3,7 +3,7 @@ import { Stack, TextField, Button, Typography } from "@mui/material";
 import axios from "axios";
 import { config } from "../../config/config";
 import { Comment } from "./Comment";
-import { PostType } from "./PostsPage";
+import { PostType } from "./FeedPage";
 
 export type CommentType = {
   comment: string;
