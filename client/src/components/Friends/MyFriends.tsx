@@ -1,8 +1,9 @@
 import React from "react";
 import { ExistFriendCard } from './ExistFriendCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 import { Stack, Typography } from '@mui/material';
+import 'swiper/css/pagination';
 
 
 export const MyFriends = () => {
@@ -13,8 +14,8 @@ export const MyFriends = () => {
                 style={{ maxWidth: "1000px", marginTop: "30px" }}
                 spaceBetween={1}
                 slidesPerView={4}
-                modules={[Navigation, Pagination, Scrollbar, A11y]}
-                navigation
+                modules={[Pagination]}
+                pagination
             >
                 <SwiperSlide>
                     <Stack>
